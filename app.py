@@ -3,7 +3,25 @@ from modules.sdxl_styles import style_keys, aspect_ratios
 import random
 import re
 from gradio_client import Client
+import argparse
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--server_port", help="port number for the server", type=int)
+parser.add_argument("--share", help="share or not", type=bool)
+args = parser.parse_args()
+
+if args.server_port:
+    server_port = args.server_port
+else:
+    server_port = 8001 
+    
+if args.share:
+    share = args.share
+else:
+    share = False 
+
+    
 def welcome(name):
     return 'https://user-images.githubusercontent.com/19834515/260323110-d386f817-4bd7-490c-ad89-c1e228c23447.png'
 
@@ -90,4 +108,4 @@ with gr.Blocks(theme='gradio/soft') as demo:
     
 
 if __name__ == "__main__":
-    demo.queue(concurrency_count=1,status_update_rate=6,api_open=False).launch(show_api=False)
+    demo.queue(concurrency_count=1,status_update_rate=6,api_open=False).launch(show_api=False,share=share, server_port=server_port)
