@@ -9,6 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--server_port", help="port number for the server", type=int)
 parser.add_argument("--share", help="share or not", type=bool)
+parser.add_argument("--server",help="server address", type=str)
 args = parser.parse_args()
 
 if args.server_port:
@@ -21,6 +22,14 @@ if args.share:
 else:
     share = False 
 
+if args.server:
+    server = args.server
+else:
+    server = "https://e2481bfdd6990a82f7.gradio.live" 
+
+
+
+
     
 def welcome(name):
     return 'https://user-images.githubusercontent.com/19834515/260323110-d386f817-4bd7-490c-ad89-c1e228c23447.png'
@@ -29,7 +38,7 @@ def generate_random_number():
     return random.randint(0, 999999999999)
 
 def generate_image(prompt="",negative_prompt="", style_selction='cinematic-default', performance_selction='Speed', aspect_ratios_selction='1152×896', image_seed=generate_random_number()):
-    client = Client("https://e2481bfdd6990a82f7.gradio.live",serialize=False,output_dir="./tmp",max_workers=1)
+    client = Client(server,serialize=False,output_dir="./tmp",max_workers=1)
     result = client.predict(
 				prompt,	# str in 'parameter_8' Textbox component
 				negative_prompt,	# str in 'Negative Prompt' Textbox component
